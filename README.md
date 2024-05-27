@@ -87,12 +87,13 @@
       cb(null, uploadDir);
     },
     filename: (req, file, cb) => {
-      cb(null, Date.now() + path.extname(file.originalname));
+      cb(null, file.originalname);
     }
   });
   const upload = multer({ storage: storage });
   ```
-  - **Purpose**: Configure Multer to store uploaded files in the `uploads` directory with unique filenames.
+  - **Purpose**: Configure Multer to store uploaded files in the `uploads` directory with the same filenames.
+  - **RISK!!**: there is a risk here that means that if a file with a duplicate name as one already uploaded, that it will replace the original. The best way to handle this is to make sure each file is unique.
 
 ---
 
@@ -330,7 +331,7 @@
       cb(null, uploadDir);
     },
     filename: (req, file, cb) => {
-      cb(null, Date.now() + path.extname(file.originalname));
+      cb(null, file.originalname);
     }
   });
   const upload = multer({ storage: storage });
